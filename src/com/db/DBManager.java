@@ -42,7 +42,7 @@ public class DBManager {
 //		String[] a = "dfhlkgsgjksd dfsjh where dhu fjf fhf where".split("where");
 //		System.out.println(a);
 //		manager.connect("D:\\Diana\\DBData\\test.DB");
-		manager.executeQuery("delete * from table xiaxiax");
+///		manager.executeQuery("delete * from table xiaxiax");
 		manager.executeQuery("create table mainTable (id INT AUTOINCREMENT, name VARCHAR(100))");
 //		manager.executeQuery("create table secondTable (id INT AUTOINCREMENT, fakultetenNomer VARCHAR(100))");
 //		manager.executeQuery("create table xiaxiax2 (id INT AUTOINCREMENT, xaxa VARCHAR(100))");
