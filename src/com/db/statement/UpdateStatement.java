@@ -34,7 +34,7 @@ public class UpdateStatement extends WhereStatement {
 		selectStatement.reader = reader;
 		selectStatement.setWhereExpression(getWhereExpression());
 		Cursor cursor = (Cursor) selectStatement.execute();
-		while (cursor.next()) {
+		while (cursor.hasNext()) {
 			Record record = cursor.readRecord();
 			if(record == null)
 				continue;

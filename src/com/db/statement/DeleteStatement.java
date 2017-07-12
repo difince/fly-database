@@ -22,7 +22,7 @@ public class DeleteStatement extends WhereStatement{
 		} else {
 			selectStatement.setWhereExpression(getWhereExpression());
 			Cursor cursor = (Cursor) selectStatement.execute();
-			while (cursor.next()) {
+			while (cursor.hasNext()) {
 				Record record = cursor.readRecord();
 				if (record == null)
 					continue;

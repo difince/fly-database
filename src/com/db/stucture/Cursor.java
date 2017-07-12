@@ -13,7 +13,7 @@ public class Cursor {
 	public Long nextRecordOffset = new Long(0);
 //	private boolean isLast = false;
 
-	public boolean next() {
+	public boolean hasNext() {
 		if (currRecordOffset == 0) {
 			if (statement.table.firstRecordOffset != 0) {
 				currRecordOffset = statement.reader.readLong(statement.table.firstRecordOffset);
@@ -63,7 +63,7 @@ public class Cursor {
 		return null;
 	}
 	
-	public Object[] read(){
+	public Object[] next(){
 		Object[] rslt = new Object[statement.fields.size()];
 		List<Value> values = new LinkedList<>();
 		for (Field field : statement.table.fields) {

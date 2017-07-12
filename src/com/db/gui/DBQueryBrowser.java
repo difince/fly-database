@@ -192,8 +192,8 @@ public class DBQueryBrowser extends JFrame implements ActionListener, TableModel
 			if(sqlStatement instanceof SelectStatement){
 				Cursor cursor = ((SelectStatement)sqlStatement).cursor;
 				dataModel.setColumnIdentifiers(cursor.getFieldNames());
-				while (cursor.next()) {
-					Object[] rslt = cursor.read();
+				while (cursor.hasNext()) {
+					Object[] rslt = cursor.next();
 					if (!isEmptyResult(rslt))
 						dataModel.addRow(rslt);
 				}

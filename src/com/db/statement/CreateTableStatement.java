@@ -24,7 +24,7 @@ public class CreateTableStatement extends SQLStatement {
 			writer.writeDatabase(database);
 		}
 		else {
-			Table previousTable = database.tables.get(database.tables.size()-2);
+			Table previousTable = database.tables.get(database.tables.size()-1);
 			previousTable.nextOffset = table.offset;
 			writer.updateNextTableOffset(previousTable);
 		}

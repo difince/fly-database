@@ -31,6 +31,10 @@ import com.db.stucture.Table;
 import com.db.utils.Messages;
 import com.db.utils.ServerSideError;
 
+import test.Country;
+import test.Student;
+import test.Town;
+
 public class DBManager {
 	private ArrayList<SQLParser> parsers = new ArrayList<SQLParser>();
 	public Database database = new Database();
@@ -39,22 +43,26 @@ public class DBManager {
 
 	public static void main(String[] args) {
 		DBManager manager = new DBManager();
-//		String[] a = "dfhlkgsgjksd dfsjh where dhu fjf fhf where".split("where");
-//		System.out.println(a);
-//		manager.connect("D:\\Diana\\DBData\\test.DB");
-//		manager.executeQuery("delete * from table xiaxiax");
-		manager.executeQuery("create table mainTable (id INT AUTOINCREMENT, name VARCHAR(100))");
-//		manager.executeQuery("create table secondTable (id INT AUTOINCREMENT, fakultetenNomer VARCHAR(100))");
-//		manager.executeQuery("create table xiaxiax2 (id INT AUTOINCREMENT, xaxa VARCHAR(100))");
-//		manager.executeQuery("insert into mainTable (id,name) values (13,'diana13')");
-//		manager.executeQuery("insert into mainTable (id,name) values (2,'Diana')");
-//		manager.executeQuery("insert into mainTable (id,name) values (3,'xaxaxaxa')");
-//		SelectStatement selectStatement = (SelectStatement)manager.executeQuery("Select * from mainTable");
-//		Cursor cursor = selectStatement.cursor;
-//		while (cursor.next()) {
-//			System.out.println(cursor.read().toString());
-//		}
-//		manager.executeQuery("Select id,name from mainTable");
+		manager.connect("D:\\DIana\\DBData\\test.db");
+		
+		manager.executeQuery("create table student (id INT AUTOINCREMENT, first_name VARCHAR(50), second_name VARCHAR(50), last_name VARCHAR(50), fakulty_nember INT, EGN VARCHAR(100)");
+		manager.executeQuery("create table country (id INT AUTOINCREMENT, name VARCHAR(50)");
+		manager.executeQuery("create table town (id INT AUTOINCREMENT, name VARCHAR(50), country_id INT)");
+		int i = 0;
+		for(Student s : Student.students){
+			manager.executeQuery(String.format("insert into student (id,first_name, second_name, last_name, fakulty_nember, EGN)"
+					+ " values (%d,'%s','%s','%s','%d','%s')", i++, s.getFirstName(), s.getSecondName(), s.getLastName(), s.getFacultyNumber(), s.getEGN()));
+		}
+		
+		i = 0;
+		for (Country s : Country.country) {
+			manager.executeQuery(String.format("insert into country (id,name)" + " values (%d,'%s')", i++, s.getName()));
+		}
+		
+		i = 0;
+		for (Town s : Town.towns) {
+			manager.executeQuery(String.format("insert into town (id,name, country_id) values (%d,'%s', %d)", i++, s.getName(), s.getCountryId()));
+		}
 	}
 
 	@SuppressWarnings("unchecked")

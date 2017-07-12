@@ -85,7 +85,7 @@ public class DBConnector extends JFrame implements ActionListener  {
 				System.out.println("enter db file");
 			} else {
 				DBManager dbManager = new DBManager();
-				dbManager.connect(/*txtField.getText()*/"E:\\flyDB\\test.DB");
+				dbManager.connect(txtField.getText());
 				DBQueryBrowser apFraim = new DBQueryBrowser(dbManager);
 				apFraim.run();
 				setVisible(false);
