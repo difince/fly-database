@@ -20,6 +20,7 @@ import com.db.parser.CreateTableParser;
 import com.db.parser.DeleteParser;
 import com.db.parser.DropTableParser;
 import com.db.parser.InsertParser;
+import com.db.parser.ListParser;
 import com.db.parser.SQLParser;
 import com.db.parser.SQLParserType;
 import com.db.parser.SelectParser;
@@ -44,36 +45,40 @@ public class DBManager {
 	public static void main(String[] args) {
 		DBManager manager = new DBManager();
 		manager.connect("D:\\DIana\\DBData\\test.db");
-		
-		manager.executeQuery("create table student (id INT AUTOINCREMENT, first_name VARCHAR(50), second_name VARCHAR(50), last_name VARCHAR(50), fakulty_nember INT, EGN VARCHAR(100)");
-		manager.executeQuery("create table country (id INT AUTOINCREMENT, name VARCHAR(50)");
-		manager.executeQuery("create table town (id INT AUTOINCREMENT, name VARCHAR(50), country_id INT)");
-		int i = 0;
-		for(Student s : Student.students){
-			manager.executeQuery(String.format("insert into student (id,first_name, second_name, last_name, fakulty_nember, EGN)"
-					+ " values (%d,'%s','%s','%s','%d','%s')", i++, s.getFirstName(), s.getSecondName(), s.getLastName(), s.getFacultyNumber(), s.getEGN()));
-		}
-		
-		i = 0;
-		for (Country s : Country.country) {
-			manager.executeQuery(String.format("insert into country (id,name)" + " values (%d,'%s')", i++, s.getName()));
-		}
-		
-		i = 0;
-		for (Town s : Town.towns) {
-			manager.executeQuery(String.format("insert into town (id,name, country_id) values (%d,'%s', %d)", i++, s.getName(), s.getCountryId()));
-		}
+//		manager.executeQuery("select * from town where country_id =1 ");
+		manager.executeQuery("select * from town where country_id in ( select id from country where name = 'germany')");
+//		manager.executeQuery("create table student (id INT AUTOINCREMENT, first_name VARCHAR(50), second_name VARCHAR(50), last_name VARCHAR(50), fakulty_nember INT, EGN VARCHAR(100)");
+//		manager.executeQuery("create table country (id INT AUTOINCREMENT, name VARCHAR(50)");
+//		manager.executeQuery("create table town (id INT AUTOINCREMENT, name VARCHAR(50), country_id INT)");
+//		manager.executeQuery("select * from town where name in ('bulgaria' , 'Sfia')");
+//		
+//		int i = 0;
+//		for(Student s : Student.students){
+//			manager.executeQuery(String.format("insert into student (id,first_name, second_name, last_name, fakulty_nember, EGN)"
+//					+ " values (%d,'%s','%s','%s','%d','%s')", i++, s.getFirstName(), s.getSecondName(), s.getLastName(), s.getFacultyNumber(), s.getEGN()));
+//		}
+//		
+//		i = 0;
+//		for (Country s : Country.country) {
+//			manager.executeQuery(String.format("insert into country (id,name)" + " values (%d,'%s')", i++, s.getName()));
+//		}
+//		
+//		i = 0;
+//		for (Town s : Town.towns) {
+//			manager.executeQuery(String.format("insert into town (id,name, country_id) values (%d,'%s', %d)", i++, s.getName(), s.getCountryId()));
+//		}
 	}
 
 	@SuppressWarnings("unchecked")
 	public DBManager() {
 		parsers.add(new CreateTableParser());
 		parsers.add(new InsertParser());
-		parsers.add(new SelectParser());
 		parsers.add(new DropTableParser());
-		parsers.add(new UpdateTableParser());
-		parsers.add(new DeleteParser());
 		parsers.add(new ShowTableParser());
+		parsers.add(new UpdateTableParser(this));
+		parsers.add(new DeleteParser(this));
+		parsers.add(new SelectParser(this));
+		parsers.add(new ListParser());
 	}
 
 	public Object executeQuery(String query) {

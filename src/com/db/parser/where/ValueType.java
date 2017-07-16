@@ -2,7 +2,7 @@ package com.db.parser.where;
 
 
 public enum ValueType {
-	DOUBLE(1), STRING(2), EXPRESSION(3);
+	DOUBLE(1), STRING(2), EXPRESSION(3), LIST_NUM(4);
 
 	@SuppressWarnings("unused")
 	public int val;
@@ -18,6 +18,8 @@ public enum ValueType {
 			return ValueType.STRING;
 		} else if(type == 3){
 			return ValueType.EXPRESSION;
+		}else if(type == 4){
+			return ValueType.LIST_NUM;
 		}
 		throw new RuntimeException("Unknown ValueType: " + type);
 	}
@@ -29,6 +31,8 @@ public enum ValueType {
 			return "STRING";
 		} else if(type == 3){
 			return "EXPRESSION";
+		}else if(type == 3){
+			return "LIST_NUM";
 		}
 		throw new RuntimeException("Unknown ValueType: " + type);
 	}

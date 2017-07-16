@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.db.DBManager;
 import com.db.statement.SQLStatement;
 import com.db.statement.SelectStatement;
 import com.db.stucture.Field;
@@ -12,11 +13,16 @@ import com.db.utils.ServerSideError;
 
 public class SelectParser extends SQLParser {
 	private WhereParser whereParser = null;
-	final Pattern pattern = Pattern.compile("select (.*) from ([\\w\\d]+)( where (.*))?");
+	final Pattern pattern = Pattern.compile("select (.+?) from ([\\w\\d]+)( where (.*))?");
+	private DBManager dbManager;
 	
+	public SelectParser(DBManager dbManager) {
+		this.dbManager = dbManager;
+	}
+
 	@Override
 	public boolean accept(String sqlText) {
-		if (sqlText.startsWith("select")) 
+		if (sqlText.trim().startsWith("select")) 
 			return true;
 		return false;
 	}
@@ -24,8 +30,9 @@ public class SelectParser extends SQLParser {
 	@Override
 	public SQLStatement process(String sqlText) {
 		SelectStatement statemnet = new SelectStatement();
-		whereParser = new WhereParser(statemnet);
+		whereParser = new WhereParser(statemnet, dbManager);
 		Matcher matcher = pattern.matcher(sqlText);
+		
 		if(!matcher.find())
 			throw new ServerSideError("Syntax error");
 		if(!matcher.group(1).equals("*")){
@@ -64,3 +71,4 @@ public class SelectParser extends SQLParser {
 //		return statemnet;
 	}
 }
+

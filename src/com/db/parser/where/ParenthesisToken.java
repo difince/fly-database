@@ -1,5 +1,6 @@
 package com.db.parser.where;
 
+import java.util.List;
 import java.util.Stack;
 
 import com.db.parser.where.expressions.WhereItem;
@@ -31,14 +32,14 @@ class ParenthesisToken extends Token {
 
 	@Override
 	public void mutateStackForInfixTranslation(Stack<Token> operatorStack,
-			StringBuilder output) {
+			List<Token> output) {
 		if (this.isOpen()) {
 			operatorStack.push(this);
 		} else {
 			Token next;
 			while ((next = operatorStack.peek()) instanceof OperatorToken
 					|| (next instanceof ParenthesisToken && !((ParenthesisToken) next).isOpen())) {
-				output.append(operatorStack.pop().getValue()).append(" ");
+				output.add(operatorStack.pop());
 			}
 			operatorStack.pop();
 		}

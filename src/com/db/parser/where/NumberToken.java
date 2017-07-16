@@ -1,5 +1,6 @@
 package com.db.parser.where;
 
+import java.util.List;
 import java.util.Stack;
 
 import com.db.parser.where.expressions.WhereItem;
@@ -29,8 +30,8 @@ public class NumberToken extends Token {
 	}
 
 	@Override
-	public void mutateStackForInfixTranslation(Stack<Token> operatorStack,StringBuilder output) {
-		output.append(this.getValue()).append(' ');
+	public void mutateStackForInfixTranslation(Stack<Token> operatorStack, List<Token> output) {
+		output.add(this);
 	}
 
 	@Override

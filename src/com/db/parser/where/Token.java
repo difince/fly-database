@@ -1,5 +1,6 @@
 package com.db.parser.where;
 
+import java.util.List;
 import java.util.Stack;
 
 import com.db.parser.where.expressions.WhereItem;
@@ -16,12 +17,17 @@ public abstract class Token {
 	}
 
 	public abstract void mutateStackForInfixTranslation(Stack<Token> operatorStack,
-			StringBuilder output);
+			List<Token> output);
 	
 	public abstract void mutateStackForCalculation(Stack<WhereItem> stack);
 	
 	@Override
 	public String toString() {
 		return String.format("value : %s", value);
+	}
+
+	public void mutateStackForInfixTranslation(Stack<Token> operatorStack, Token[] outputTokens) {
+		// TODO Auto-generated method stub
+		
 	}
 }

@@ -1,7 +1,9 @@
 package com.db.parser;
 
+import java.util.ArrayList;
 import java.util.Stack;
 
+import com.db.DBManager;
 import com.db.parser.where.Token;
 import com.db.parser.where.Tokenizer;
 import com.db.parser.where.expressions.WhereExpression;
@@ -11,26 +13,27 @@ import com.db.statement.WhereStatement;
 
 public class WhereParser extends SQLParser{
 	private WhereStatement stmt;
+	private DBManager dbManager;
 
-	public WhereParser(WhereStatement stmt) {
+	public WhereParser(WhereStatement stmt, DBManager dbManager) {
 		this.stmt = stmt;
+		this.dbManager = dbManager;
 	}
 
 	@Override
 	public SQLStatement process(String query) {
-		Token[] tokens = new Tokenizer().tokenize(query);
+		Token[] tokens = new Tokenizer().tokenize(query, dbManager);
 		
-		final StringBuilder output = new StringBuilder(tokens.length);
+		final ArrayList<Token> outputTokens = new ArrayList<>();
 		final Stack<Token> operatorStack = new Stack<Token>();
 		for (final Token token : tokens) {
-			token.mutateStackForInfixTranslation(operatorStack, output);
+			token.mutateStackForInfixTranslation(operatorStack, outputTokens);
 		}
 		// all tokens read, put the rest of the operations on the output;
 		while (operatorStack.size() > 0) {
-			output.append(operatorStack.pop().getValue()).append(" ");
+			outputTokens.add(operatorStack.pop());
 		}
-		Token[] toks = new Tokenizer().tokenize(output.toString());
-		stmt.setWhereExpression(transformToWhereItem(toks));
+		stmt.setWhereExpression(transformToWhereItem(outputTokens.toArray(new Token[outputTokens.size()])));
 		return stmt;
 	}
 

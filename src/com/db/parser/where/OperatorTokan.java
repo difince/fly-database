@@ -1,5 +1,6 @@
 package com.db.parser.where;
 
+import java.util.List;
 import java.util.Stack;
 
 import com.db.parser.where.expressions.WhereExpression;
@@ -23,7 +24,9 @@ class OperatorToken extends Token{
 		EQUAL(2, true),
 		SMALLER_EQUAL(2, false), 
 		GREATER_EQUAL(2, false),
-		NO_EQUAL(2, false);
+		NO_EQUAL(2, false),
+		IN(2, false),
+		NOT_IN(2, false);
 		
 		private final int precedence;
 		private final boolean leftAssociative;
@@ -52,6 +55,10 @@ class OperatorToken extends Token{
 			return Operation.GREATER_EQUAL;
 		case "!=":
 			return Operation.NO_EQUAL;
+		case "in":
+			return Operation.IN;
+		case "not in":
+			return Operation.NOT_IN;
 		default:
 			return null;
 		}
@@ -120,6 +127,15 @@ class OperatorToken extends Token{
 					greaterEqualGroup.setValue((WhereValue) whereItem);
 			}
 			return greaterEqualGroup;
+		case IN:
+			WhereEqualGroup eqGroup = new WhereEqualGroup();
+			for (WhereItem whereItem : values) {
+				if(whereItem instanceof WhereField)
+					eqGroup.setField((WhereField) whereItem);
+				else if (whereItem instanceof WhereValue)
+					eqGroup.setValue((WhereValue) whereItem);
+			}
+			return eqGroup;
 		default:
 			return null;
 		}
@@ -143,6 +159,7 @@ class OperatorToken extends Token{
 		case EQUAL:
 		case SMALLER_EQUAL:
 		case GREATER_EQUAL:
+		case IN:
 			return 2;
 		default:
 			return 0;
@@ -189,14 +206,14 @@ class OperatorToken extends Token{
 	}
 
 	@Override
-	public void mutateStackForInfixTranslation(Stack<Token> operatorStack, StringBuilder output) {
+	public void mutateStackForInfixTranslation(Stack<Token> operatorStack, List<Token> output) {
 		Token before;
 		while (!operatorStack.isEmpty() && (before = operatorStack.peek()) != null && (before instanceof OperatorToken)) {
 				final OperatorToken stackOperator = (OperatorToken) before;
 				if (this.isLeftAssociative() && this.getPrecedence() <= stackOperator.getPrecedence()) {
-					output.append(operatorStack.pop().getValue()).append(" ");
+					output.add(operatorStack.pop());
 				} else if (!this.isLeftAssociative() && this.getPrecedence() < stackOperator.getPrecedence()) {
-					output.append(operatorStack.pop().getValue()).append(" ");
+					output.add(operatorStack.pop());
 				} else {
 					break;
 				}

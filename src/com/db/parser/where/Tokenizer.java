@@ -3,6 +3,8 @@ package com.db.parser.where;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.db.DBManager;
+import com.db.parser.where.OperatorToken.Operation;
 import com.db.utils.ServerSideError;
 
 public class Tokenizer {
@@ -10,13 +12,14 @@ public class Tokenizer {
 		add( '['); add( ']'); add( '{'); add( '}'); add( '@');
 		add('.'); add(':'); add('\\'); add('/'); add('\'');
 	}};
-	public Token[] tokenize(String infix)/* throws UnparsableExpressionException, UnknownFunctionException*/ {
+	public Token[] tokenize(String infix, DBManager dbManager)/* throws UnparsableExpressionException, UnknownFunctionException*/ {
 		final List<Token> tokens = new ArrayList<Token>();
 		final char[] chars = infix.toCharArray();
 		// iterate over the chars and fork on different types of input
-		Token lastToken;
+		Token lastToken = null;
 		int parenthesesBalance = 0;
 		for (int i = 0; i < chars.length; i++) {
+			Token previousToken = lastToken;
 			char c = chars[i];
 			if (c == ' ')
 				continue;
@@ -74,10 +77,25 @@ public class Tokenizer {
 				lastToken = new OperatorToken(String.valueOf(c), OperatorToken.getOperation(String.valueOf(c)));
 			}*/else if (c == '(' || c == ')'/* || c == '[' || c == ']' || c == '{' || c == '}'*/) {
 				lastToken = new ParenthesisToken(String.valueOf(c));
-				if(((ParenthesisToken)lastToken).isOpen())
-					parenthesesBalance++;
-				else
-					parenthesesBalance--;
+				tokens.add(lastToken);
+				parenthesesBalance = calculateParenthesses(lastToken, parenthesesBalance);
+				if (previousToken instanceof OperatorToken && ((OperatorToken)previousToken).getOperation() == Operation.IN){
+					int offset = 1;
+					final StringBuilder subQueryBuilder = new StringBuilder();
+					while (chars.length > i + offset && !checkParenthesesEquality(parenthesesBalance)) {
+						if (chars[i + offset] == '(' || chars[i + offset] == ')'){
+							lastToken = new ParenthesisToken(String.valueOf(chars[i + offset]));
+							parenthesesBalance = calculateParenthesses(lastToken, parenthesesBalance);
+						}
+						if (!checkParenthesesEquality(parenthesesBalance))
+							subQueryBuilder.append(chars[i + offset]);
+						offset++;
+					}
+					tokens.add(new SubQueryToken(subQueryBuilder.toString(), dbManager));
+//					tokens.add(lastToken);
+//					parenthesesBalance = calculateParenthesses(new ParenthesisToken(String.valueOf(c)), parenthesesBalance);
+					i += offset - 1;
+				}
 			} else {
 				// an unknown symbol was encountered
 				throw new ServerSideError(String.format("UnparsableExpressionException reading %s position %d",c ,i));
@@ -86,6 +104,20 @@ public class Tokenizer {
 		}
 		checkParenthesesBalanceLevel(parenthesesBalance);
 		return tokens.toArray(new Token[tokens.size()]);
+	}
+
+	private int calculateParenthesses(Token lastToken, int parenthesesBalance) {
+		if(((ParenthesisToken)lastToken).isOpen())
+			parenthesesBalance++;
+		else
+			parenthesesBalance--;
+		return parenthesesBalance;
+	}
+	
+	private boolean checkParenthesesEquality(int parenthesesBalance) {
+		if(parenthesesBalance == 0)
+			return true;
+		return false;
 	}
 	
 	private void checkParenthesesBalanceLevel(int parenthesesBalance) {

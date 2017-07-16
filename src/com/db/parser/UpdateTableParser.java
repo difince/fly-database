@@ -1,5 +1,6 @@
 package com.db.parser;
 
+import com.db.DBManager;
 import com.db.parser.update.UpdateGroup;
 import com.db.statement.SQLStatement;
 import com.db.statement.UpdateStatement;
@@ -7,6 +8,12 @@ import com.db.statement.UpdateStatement;
 public class UpdateTableParser extends SQLParser {
 
 	private WhereParser whereParser;
+	private DBManager dbManager;
+	
+	public UpdateTableParser(DBManager dbManager) {
+		this.dbManager = dbManager;
+	}
+	
 	@Override
 	public boolean accept(String sqlText) {
 		String[] txt = sqlText.split(" ");
@@ -27,7 +34,7 @@ public class UpdateTableParser extends SQLParser {
 	    	stmt.getUpdateGroups().add(group);
 	    }
 	    if(rslt.length>1){
-	    	whereParser = new WhereParser(stmt);
+	    	whereParser = new WhereParser(stmt, dbManager);
 	    	whereParser.process(rslt[1]);
 	    }
 		return stmt;
