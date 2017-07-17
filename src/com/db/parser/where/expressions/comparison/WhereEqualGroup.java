@@ -30,7 +30,7 @@ public class WhereEqualGroup extends ComparisonExpression{
 					} else if (getValue().getType() == ValueType.LIST_NUM) {
 						for(Object val : (List<Object>) getValue().getValue()){
 							if(value.field.type == ValueType.DOUBLE.val){
-								if(Double.parseDouble((String)val) == (Long)value.value)
+								if(val == (Long)value.value)
 									return true;
 							}else if (value.field.type == ValueType.STRING.val){
 								if (val.equals(((String) value.value)))
