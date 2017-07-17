@@ -35,7 +35,9 @@ public class SubQueryToken extends Token{
 			while (cursor.hasNext()) {
 				Object[] rslt = cursor.next();
 				if (!isEmptyResult(rslt))
-					r.add(rslt);
+					if(rslt.length > 1)
+						throw new RuntimeException("Subquery still supports operation over one column.");
+					r.add(rslt[0]);
 			}
 		} else if (sqlStatement instanceof ListStatement) {
 			r = ((ListStatement)sqlStatement).getObjectList();
