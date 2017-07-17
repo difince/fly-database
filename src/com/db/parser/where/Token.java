@@ -25,9 +25,4 @@ public abstract class Token {
 	public String toString() {
 		return String.format("value : %s", value);
 	}
-
-	public void mutateStackForInfixTranslation(Stack<Token> operatorStack, Token[] outputTokens) {
-		// TODO Auto-generated method stub
-		
-	}
 }

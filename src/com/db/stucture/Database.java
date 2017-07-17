@@ -12,7 +12,6 @@ public class Database extends Observable {
     public Long version;
     public Long firstTableOffset;
     public LinkedList<Table> tables = new LinkedList<>();
-    public Table table = new Table();
     
     public List<String> getAllTableNames(){
     	List<String> names = new ArrayList<>();
