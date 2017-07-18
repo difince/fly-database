@@ -22,6 +22,7 @@ public class Town {
 			add(new Town("Kazanlak", 1));
 			add(new Town("Ruse", 1));
 			add(new Town("Stara Zagora", 1));
+			add(new Town("Burgas", 1));
 			add(new Town("Hambourg", 2));
 			add(new Town("Athina", 3));
 			add(new Town("Paris", 4));
