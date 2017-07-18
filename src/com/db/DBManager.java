@@ -31,12 +31,10 @@ import com.db.stucture.Database;
 import com.db.stucture.Table;
 import com.db.utils.Messages;
 import com.db.utils.ServerSideError;
-import com.sun.prism.paint.Paint;
 
 import test.Country;
 import test.Gallery;
 import test.Painting;
-import test.Student;
 import test.Town;
 
 public class DBManager {
@@ -61,33 +59,47 @@ public class DBManager {
 //					+ " values (%d,'%s','%s','%s','%d','%s')", i++, s.getFirstName(), s.getSecondName(), s.getLastName(), s.getFacultyNumber(), s.getEGN()));
 //		}
 		
-		i = 0;
+		i = 1;
 		for (Country s : Country.country) {
 			manager.executeQuery(String.format("insert into country (id,name)" + " values (%d,'%s')", i++, s.getName()));
 		}
 		
-		i = 0;
+		i = 1;
 		for (Town s : Town.towns) {
-			manager.executeQuery(String.format("insert into town (id,name, country_id) values (%d,'%s', %d)", i++, s.getName(), s.getCountryId()));
+			String query = String.format("insert into town (id,name, country_id) values (%d,'%s', %d)", i++, s.getName(), s.getCountryId());
+			System.err.println(query);
+			manager.executeQuery(query);
 		}
 		
 		
 		manager.executeQuery("create table gallery (id INT AUTOINCREMENT, name VARCHAR(50), town_id INT, address VARCHAR(50), contact_person VARCHAR(50), "
 				+ " telephone VARCHAR(50), details VARCHAR(50)");
-		i = 0;
+		i = 1;
 		for (Gallery g : Gallery.gallerys) {
-			System.err.println(g);
-			manager.executeQuery(String.format("insert into gallery (id,name, town_id, address, contact_person, telephone, details) "
-					+ "values (%d,'%s', %d,'%s','%s','%s','%s' )", i++, g.getName(), g.getTownId(), g.getAddress(), g.getContactName(), g.getTelephone(), g.getDetails()));
+			String query = String.format("insert into gallery (id,name, town_id, address, contact_person, telephone, details) "
+					+ "values (%d,'%s', %d,'%s','%s','%s','%s' )", i++, g.getName(), g.getTownId(), g.getAddress(), g.getContactName(), g.getTelephone(), g.getDetails());
+			System.err.println(query);
+			manager.executeQuery(query);
 		}
 		
 		
-		manager.executeQuery("create table painting (id INT AUTOINCREMENT, name VARCHAR(50), technique VARCHAR(50), height INT, width INT, fraim INT)");
-		i = 0;
+		manager.executeQuery("create table painting (id INT AUTOINCREMENT, name VARCHAR(50), technique VARCHAR(50), height INT, width INT, fraim INT,"
+				+ " price INT, state VARCHAR(50), gallery_id INT,)");
+		i = 1;
 		for (Painting p : Painting.paintings) {
-			manager.executeQuery(String.format("insert into painting (id, name, technique, height, width, fraim) values (%d,'%s', '%s', %d, %d, %d)", i++, p.getName(), 
-					p.getTechnique(), p.getHeight(), p.getWidth(), p.getFraim()));
+			System.err.println(p);
+			String query = String.format("insert into painting (id, name, technique, height, width, fraim, price, state, gallery_id) values (%d,'%s', '%s', %d, %d, %d, %d, '%s', %d)", i++, p.getName(), 
+					p.getTechnique(), p.getHeight(), p.getWidth(), p.getFraim(), p.getPrice(), p.getState(), p.getGallery_id());
+			System.err.println(query);
+			manager.executeQuery(query);
 		}
+		
+//		manager.executeQuery("create table actions (id INT AUTOINCREMENT, painting_id INT, gallery_id INT, price INT, state VARCHAR(50))");
+//		i = 0;
+//		for (Painting p : Action.paintings) {
+//			manager.executeQuery(String.format("insert into actions (id, painting_id, gallery_id, price, state, gallery_id) values (%d,%d, %d, %d, %s, %d)", i++, p.getName(), 
+//					p.getTechnique(), p.getHeight(), p.getWidth(), p.getFraim()));
+//		}
 	}
 
 	@SuppressWarnings("unchecked")

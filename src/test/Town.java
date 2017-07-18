@@ -52,5 +52,10 @@ public class Town {
 	public void setCountryId(Integer countryId) {
 		this.countryId = countryId;
 	}
+
+	@Override
+	public String toString() {
+		return "Town [id=" + id + ", name=" + name + ", countryId=" + countryId + "]";
+	}
 }
 
