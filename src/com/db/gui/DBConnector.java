@@ -82,10 +82,10 @@ public class DBConnector extends JFrame implements ActionListener  {
 			}
 		} else if (e.getSource() == connectButton) {
 			if (txtField.getText() == "") {
-				System.out.println("enter db file");
+				System.out.println("Please choose database file to be used / to be created.");
 			} else {
 				DBManager dbManager = new DBManager();
-				dbManager.connect(txtField.getText());
+				dbManager.connect("//home//difince//DataBase//art.db");
 				DBQueryBrowser apFraim = new DBQueryBrowser(dbManager);
 				apFraim.run();
 				setVisible(false);

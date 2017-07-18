@@ -95,4 +95,10 @@ public class Cursor {
 		}
 		return fieldsName;
 	}
+
+	@Override
+	public String toString() {
+		return "Cursor [currRecordOffset=" + currRecordOffset + ", currOffset=" + currOffset + ", nextRecordOffset="
+				+ nextRecordOffset + "]";
+	}
 }

@@ -13,6 +13,7 @@ public class Country {
 
 	public static ArrayList<Country> country = new ArrayList<Country>() {
 		{
+			add(new Country("Hungary"));
 			add(new Country("Bulgaria"));
 			add(new Country("Germany"));
 			add(new Country("Greece"));

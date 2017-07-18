@@ -31,8 +31,6 @@ public class Painting {
 		add(new Painting("Вратата на слънцето","Графика", 15, 15, 1, 60, "Available", 0));
 		add(new Painting("На дъното","Графика", 15, 15, 1, 100, "Available", 0));
 		add(new Painting("Утеха","Масло", 92, 72, 1, 95, "Available", 0));
-		
-		
 	    add(new Painting("Признание","Масло", 20, 20, 1, 145, "Sold",0));
 	    add(new Painting("Предизвикателство","Масло", 30, 130, 1, 65, "Sold", 0));
 	    add(new Painting("Преданост","Масло", 30, 30, 1, 145, "Sold", 0));
@@ -57,7 +55,6 @@ public class Painting {
 	    add(new Painting("Форми","Графика", 10, 10, 1, 70, "inStore",1 ));
 	    add(new Painting("Утеха","Графика", 92, 72, 1, 65, "inStore", 1));
 	    add(new Painting("Формообразуване","Графика", 19, 15, 1, 65, "inStore", 2));
-	    
 	    add(new Painting("Усещане","Графика", 19, 15, 1, 50, "inStore", 32));
 	    add(new Painting("Спокойствие","Графика", 19, 4, 1, 60, "inStore", 26));
 	    add(new Painting("Синхрон","Графика", 25, 30, 1, 130, "inStore", 5));
@@ -65,7 +62,6 @@ public class Painting {
 	    add(new Painting("Загадка","Графика", 10, 10, 1, 70, "inStore",13 ));
 	    add(new Painting("Пирамида","Графика", 8, 4, 1, 50, "inStore", 13));
 	    add(new Painting("Пространство","Графика", 10, 10, 1, 50, "inStore", 1));
-	    
 	    add(new Painting("Мисъл","Акварел", 10, 10, 1, 50, "Sold", 3));
 	    add(new Painting("Сакралност","Акварел", 100, 85, 1, 390, "Sold", 3));
 	    add(new Painting("Изкушение","Акварел", 60, 80, 1, 50, "inStore", 3));
@@ -76,23 +72,21 @@ public class Painting {
 	    add(new Painting("Мъжественост","Акварел", 30, 60, 1, 50, "inStore", 1));
 	    add(new Painting("Мирис на лято","Акварел", 50, 40, 1, 50, "inStore", 7));
 	    add(new Painting("Импресия","Акварел", 10, 10, 1, 50, "inStore", 7));
-	    
 	    add(new Painting("Мисъл","Акварел", 10, 10, 1, 50, "inStore", 8));
 	    add(new Painting("Сакралност","Акварел", 100, 85, 1, 60, "inStore", 8));
-	    add(new Painting("Изкушение","Акварел", 60, 80, 1, 150, "Available", 8));
+	    add(new Painting("Изкушение","Акварел", 60, 80, 1, 150, "Available", 0));
 	    add(new Painting("Фриволност","Акварел", 55, 95, 1, 400, "inStore", 8));
 	    add(new Painting("Оптимизъм","Графика", 80, 40, 1, 260, "inStore", 8));
-	    add(new Painting("Спомен","Акварел", 100, 100, 1, 550, "Available", 9));
-	    add(new Painting("Женственост","Графика", 35, 45, 1, 220, "Available", 9));
+	    add(new Painting("Спомен","Акварел", 100, 100, 1, 550, "Available", 0));
+	    add(new Painting("Женственост","Графика", 35, 45, 1, 220, "inStore", 9));
 	    add(new Painting("Мъжественост","Акварел", 30, 60, 1, 320, "inStore", 9));
-	    add(new Painting("Мирис на лято","Акварел", 50, 40, 1, 250, "Available", 9));
+	    add(new Painting("Мирис на лято","Акварел", 50, 40, 1, 250, "inStore", 9));
 	    add(new Painting("Импресия","Акварел", 10, 10, 1, 150, "inStore", 9));
-	    
 	    add(new Painting("Истина","Графика", 80, 40, 1, 260, "inStore", 10));
-	    add(new Painting("Класа","Масло", 100, 100, 1, 550, "Available", 10));
+	    add(new Painting("Класа","Масло", 100, 100, 1, 550, "Available", 0));
 	    add(new Painting("Преходност","Графика", 35, 45, 1, 125, "Sold", 10));
 	    add(new Painting("Eкспресия","Акварел", 30, 60, 1, 310, "inStore", 10));
-	    add(new Painting("Душевност","Масло", 50, 40, 1, 290, "Available", 10));
+	    add(new Painting("Душевност","Масло", 50, 40, 1, 290, "Sold", 10));
 	    add(new Painting("Силата на мисълта","Акварел", 120, 100, 1, 150, "inStore", 10));
 	    
 	}};

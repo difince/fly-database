@@ -45,26 +45,26 @@ public class DBManager {
 
 	public static void main(String[] args) {
 		DBManager manager = new DBManager();
-		manager.connect("//home//difince//test//test.db");
+		manager.connect("//home//difince//DataBase//art.db");
 //		manager.executeQuery("select * from town where country_id =1 ");
 //		manager.executeQuery("select * from town where country_id in ( select id from country where name = 'germany')");
 //		manager.executeQuery("select * from town where name in ('bulgaria' , 'Sfia')");
 //		
 //		manager.executeQuery("create table student (id INT AUTOINCREMENT, first_name VARCHAR(50), second_name VARCHAR(50), last_name VARCHAR(50), fakulty_nember INT, EGN VARCHAR(100)");
 		manager.executeQuery("create table country (id INT AUTOINCREMENT, name VARCHAR(50)");
-		manager.executeQuery("create table town (id INT AUTOINCREMENT, name VARCHAR(50), country_id INT)");
 		int i = 0;
+		for (Country s : Country.country) {
+			manager.executeQuery(String.format("insert into country (id,name)" + " values (%d,'%s')", i++, s.getName()));
+		}
+		manager.executeQuery("create table town (id INT AUTOINCREMENT, name VARCHAR(50), country_id INT)");
+//		int i = 0;
 //		for(Student s : Student.students){
 //			manager.executeQuery(String.format("insert into student (id,first_name, second_name, last_name, fakulty_nember, EGN)"
 //					+ " values (%d,'%s','%s','%s','%d','%s')", i++, s.getFirstName(), s.getSecondName(), s.getLastName(), s.getFacultyNumber(), s.getEGN()));
 //		}
 		
-		i = 1;
-		for (Country s : Country.country) {
-			manager.executeQuery(String.format("insert into country (id,name)" + " values (%d,'%s')", i++, s.getName()));
-		}
 		
-		i = 1;
+		i = 0;
 		for (Town s : Town.towns) {
 			String query = String.format("insert into town (id,name, country_id) values (%d,'%s', %d)", i++, s.getName(), s.getCountryId());
 			System.err.println(query);
@@ -74,7 +74,7 @@ public class DBManager {
 		
 		manager.executeQuery("create table gallery (id INT AUTOINCREMENT, name VARCHAR(50), town_id INT, address VARCHAR(50), contact_person VARCHAR(50), "
 				+ " telephone VARCHAR(50), details VARCHAR(50)");
-		i = 1;
+		i = 0;
 		for (Gallery g : Gallery.gallerys) {
 			String query = String.format("insert into gallery (id,name, town_id, address, contact_person, telephone, details) "
 					+ "values (%d,'%s', %d,'%s','%s','%s','%s' )", i++, g.getName(), g.getTownId(), g.getAddress(), g.getContactName(), g.getTelephone(), g.getDetails());
@@ -85,9 +85,8 @@ public class DBManager {
 		
 		manager.executeQuery("create table painting (id INT AUTOINCREMENT, name VARCHAR(50), technique VARCHAR(50), height INT, width INT, fraim INT,"
 				+ " price INT, state VARCHAR(50), gallery_id INT,)");
-		i = 1;
+		i = 0;
 		for (Painting p : Painting.paintings) {
-			System.err.println(p);
 			String query = String.format("insert into painting (id, name, technique, height, width, fraim, price, state, gallery_id) values (%d,'%s', '%s', %d, %d, %d, %d, '%s', %d)", i++, p.getName(), 
 					p.getTechnique(), p.getHeight(), p.getWidth(), p.getFraim(), p.getPrice(), p.getState(), p.getGallery_id());
 			System.err.println(query);
