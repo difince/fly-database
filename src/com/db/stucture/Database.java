@@ -30,6 +30,15 @@ public class Database extends Observable {
     	throw new ServerSideError("Table with name " + name+ " does not exists.");
     }
     
+    public boolean isTableExists(String name){
+    	for (Table table : tables) {
+			if(table.name.equalsIgnoreCase(name)){
+				return true;
+			}
+		}
+    	return false;
+    }
+    
     @Override
     public String toString() {
     	return String.format("magic: %d, version: %d, firstTableOffset : %d, tables: %s", magic ,version, firstTableOffset , tables);

@@ -3,6 +3,7 @@ package com.db.statement;
 import java.util.LinkedList;
 
 import com.db.stucture.Table;
+import com.db.utils.ServerSideError;
 
 public class CreateTableStatement extends SQLStatement {
 	private String tableName;
@@ -16,7 +17,8 @@ public class CreateTableStatement extends SQLStatement {
 		table.firstFieldOffset = new Long(0); //pyrvona4alno 0
 		table.firstRecordOffset = new Long(0);
 
-
+		if(database.isTableExists(tableName))
+			throw new ServerSideError(String.format("Table with name %s already exists.", tableName));
 		
 		writer.writeNewTable(table);
 		if (database.firstTableOffset == 0) {			
